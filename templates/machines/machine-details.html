@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Machine details</title>
+</head>
+<body>
+
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<h1>{{ machine.name }} </h1>
+<div>
+    {% if machine.image_url %}
+        <img src="{{ machine.image_url }}" alt="machine-image" width="250" height="300">
+    {% else %}
+        <img src="{% static 'images/machine_no_image.jpg' %}" alt="machine-image" width="200" height="300">
+    {% endif %}
+</div>
+<div>
+    <h3>Name: {{ machine.name }}</h3>
+    <h3>Type: {{ machine.type }}</h3>
+    <h3>SN: {{ machine.serial_number }}</h3>
+    <a href="{% url 'machine edit' pk=machine.pk %}">Edit</a>
+
+</div>
+<div>
+    <a href="{% url 'machine delete' pk=machine.pk %}">Delete</a>
+</div>
+<div>
+    <a href="{% url 'machines' %}">Back</a>
+</div>
+
+</body>
+</html>

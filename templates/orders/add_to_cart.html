@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<header>
+    {% include 'base/nav.html' %}
+    <div>
+        You have {{ total_cart_qty }} item(s) in your <a href="{% url 'show cart' %}">Cart</a>
+    </div>
+</header>
+
+<body>
+<h3>Add items to Cart</h3>
+
+<form method="get" id="form" action="{% url 'create oder' %}">
+    <label>
+        <input name="pattern" placeholder="Search Part number:">
+    </label>
+
+    <input type="submit" value="Search">
+</form>
+
+<table>
+    <tr>
+        <td>Part Number</td>
+        <td>Description</td>
+        <td>Qty to add</td>
+    </tr>
+
+    {% for part in object_list %}
+        <tr>
+            <form method="get" action="{% url 'create oder' %}">
+                <td>
+                    <input type="text" name="part number" value="{{ part.part_number }}" readonly>
+                </td>
+                <td>
+                    <input type="text" name="description" value="{{ part.description }}" readonly>
+                </td>
+                <td>
+                    <input type="text" name="qty" value="1" maxlength="3" size="7">
+                </td>
+                <td>
+                    <button name="Add to cart">Add to Cart</button>
+                </td>
+                {% csrf_token %}
+            </form>
+        </tr>
+
+    {% endfor %}
+</table>
+
+<div>
+    {% if total_cart_qty != 0 %}
+        <button type="submit" form="form" name="Order">Place Order</button>
+    {% endif %}
+</div>
+
+</body>
+
+<ul>
+    {% for part_number, qty in cart.items %}
+        <li>{{ part_number }}: {{ qty }}</li>
+    {% endfor %}
+</ul>
+</html>

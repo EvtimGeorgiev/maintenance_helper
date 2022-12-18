@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stock</title>
+</head>
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<body>
+<h2>Stock Items</h2>
+<table>
+    <tr>
+        <th>Part Number |</th>
+        <th>Description |</th>
+        <th>Qty on Stock |</th>
+        <th>Min Stock Qty</th>
+    </tr>
+    {% for item in object_list %}
+        <tr>
+            <td>{{ item.part_number_id }}</td>
+            <td>{{ item.description }}</td>
+            {% if item.quantity < item.min_stock_qty %}
+                <td style="text-align: center; color: red">{{ item.quantity }}</td>
+            {% else %}
+                <td style="text-align: center">{{ item.quantity }}</td>
+            {% endif %}
+
+
+            <td style="text-align: center">{{ item.min_stock_qty }}</td>
+
+
+            <td>
+                <a href="{% url 'edit stock item' pk=item.part_number_id %}">Edit</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

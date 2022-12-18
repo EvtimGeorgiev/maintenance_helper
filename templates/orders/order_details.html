@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Order details</title>
+</head>
+
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<body>
+
+<h4>Order No: {{ order.order_number }}</h4>
+{% if order.received_on %}
+    <h4>Received on: {{ order.received_on }}</h4>
+{% else %}
+    <div>
+        <h4>Order Status: Not received</h4>
+    </div>
+    <p>
+    <form method="get" action="{% url 'order details' pk=order.order_number %}">
+        <button type="submit" value="{{ order.order_number }}" name="Receive">Mark as Received</button>
+    </form>
+    </p>
+{% endif %}
+
+{% if not ordered_items %}
+    No info about order {{ order.order_number }}
+{% else %}
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price, EUR</th>
+            <th>Total price, EUR</th>
+        </tr>
+        {% for item in ordered_items %}
+            <tr>
+                <td>{{ item.part_number }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.total_items_price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h4>Total: {{ order.total_price }} EUR</h4>
+
+{% endif %}
+
+<a href="{% url 'orders list' %}">Back</a>
+
+</body>
+</html>

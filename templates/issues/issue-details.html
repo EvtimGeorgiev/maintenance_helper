@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Issue details</title>
+</head>
+<body>
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<h2>Issue No: {{ issue.pk }}</h2>
+<h3>Machine: {{ issue.machine.name }}</h3>
+<h3>Description: {{ issue.description }}</h3>
+<h3>Created by: {{ issue.created_by }}</h3>
+<h3>Created on: {{ issue.created_on }}</h3>
+<h3>
+    {% if issue.closed_on %}
+        Status: Closed on {{ issue.closed_on }}
+    {% else %}
+        Status: Open
+    {% endif %}
+</h3>
+
+<a href="{% url 'issues' %}">Back</a>
+
+</body>
+</html>

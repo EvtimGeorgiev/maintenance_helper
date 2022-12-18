@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Maintenance</title>
+</head>
+<body>
+
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<div>
+    <a href="{% url 'machines' %}">Machines Overview</a>
+</div>
+<div>
+    <a href="{% url 'machine create' %}">Add New Machine</a>
+</div>
+
+<div>
+    <a href="{% url 'issues' %}">Issues Overview</a>
+</div>
+
+<div>
+    <a href="{% url 'issue create' %}">Log Issue</a>
+</div>
+
+<div>
+    <a href="{% url 'spare parts' %}">Spare Parts</a>
+</div>
+
+
+<div>
+    <a href="{% url 'register user' %}">Register User</a>
+</div>
+
+<div>
+    <a href="{% url 'stock list' %}">Stock</a>
+</div>
+
+
+<div>
+    <a href="{% url 'orders list' %}">Orders</a>
+</div>
+
+</body>
+</html>

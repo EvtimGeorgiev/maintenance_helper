@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Issues</title>
+</head>
+
+<body>
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<h2>Issues</h2>
+
+<form action="{% url 'issues' %}">
+    <label>
+        <input name="pattern" placeholder="Enter search text:">
+    </label>
+    <input type="submit" value="Search">
+    {% if pattern %}
+        <button>
+            Reset
+        </button>
+    {% endif %}
+</form>
+{% csrf_token %}
+
+{% if pattern %}
+    <div>
+        <h1>Results for '{{ pattern }}':</h1>
+    </div>
+{% endif %}
+
+<ul>
+    {% for issue in issues_list %}
+        <li>
+            {{ issue.pk }} {{ issue.machine }} || {{ issue.description }} ||
+        {% if issue.closed_on %}
+            closed
+        {% else %}
+            open
+        {% endif %}
+            <a href="{% url 'issue details' pk=issue.pk %}">Details</a>
+        {% if not issue.closed_on %}
+            <a href="{% url 'issue edit' pk=issue.pk %}">Edit</a>
+        {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

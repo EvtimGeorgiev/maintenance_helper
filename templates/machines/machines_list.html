@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Machine List</title>
+</head>
+
+<body>
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<h2>Machines</h2>
+
+{% if machines_list %}
+    <form method="get" action="{% url 'machines' %}">
+        <label>
+            <input name="pattern" placeholder="Enter text:">
+        </label>
+        <input type="submit"
+                {% if not pattern %}
+               value="Search"
+                {% else %}
+               value="Reset/Search"
+                {% endif %}
+        >
+    </form>
+
+
+    {% if pattern %}
+        <div>
+            <h2>Results for '{{ pattern }}':</h2>
+        </div>
+    {% endif %}
+
+    <ul>
+        {% for machine in machines_list %}
+            <li>
+                {{ machine.name }} {{ machine.type }} {{ machine.serial_number }}
+                <a href="{% url 'machine details' pk=machine.pk %}">Details</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>No Machines found in database</h3>
+{% endif %}
+
+</body>
+</html>

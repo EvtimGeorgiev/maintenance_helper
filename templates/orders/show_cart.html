@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Your Cart</title>
+</head>
+
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<body>
+
+{% if not object_list %}
+    Your Cart is Empty
+{% else %}
+
+
+    <h3>Items in Cart</h3>
+    <table>
+        <tr>
+            <td><strong>Part Number</strong></td>
+            <td><strong>Description</strong></td>
+            <td><strong>Qty</strong></td>
+        </tr>
+        {% for item in object_list %}
+            <tr>
+                <td>{{ item.part_number }}</td>
+                <td>{{ item.description }}</td>
+
+                <td>
+                    <form id="form" method="get" action="{% url 'show cart' %}">
+                        <label>
+                            <input name={{ item.part_number }} type="text" value="{{ item.quantity }}" size="1">
+                        </label>
+                        <button type="submit" value="{{ item.part_number }}" name="Update">Update</button>
+                        <button type="submit" value="{{ item.part_number }}" name="Remove" style="color: red">Remove
+                        </button>
+                    </form>
+                </td>
+                {#            <td>#}
+                {#                <a href="{% url  %}"></a>#}
+                {#            </td>#}
+                {#            <td>#}
+                {#                <input type="submit" form="form" name="{{ item.part_number }}" style="color: red" value="Remove">#}
+                {#            </td>#}
+
+            </tr>
+        {% endfor %}
+    </table>
+    <div>
+        Total price: {{ total_price }}
+    </div>
+
+    <p>
+    <button form="form" name="Order">Place Order</button>
+    </p>
+
+{% endif %}
+
+
+<p>
+    <a href="{% url 'create oder' %}">Back</a>
+</p>
+</body>
+</html>

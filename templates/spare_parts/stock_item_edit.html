@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit stock item</title>
+</head>
+
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<body>
+    Part Number: {{ part.pk }}
+    <form method="post" action="{% url 'edit stock item' pk=part.pk %}">
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+        {% csrf_token %}
+    </form>
+
+    <a href="{% url 'stock list' %}">Back</a>
+</body>
+</html>

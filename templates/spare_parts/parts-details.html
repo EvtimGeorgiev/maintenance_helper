@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Part Details</title>
+</head>
+
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<body>
+    <h2>Part Number: {{ sparepart.part_number }}</h2>
+<img src="{{ sparepart.image_url }}" alt="Part Image" width="200" height="200">
+    <h3>Description: {{ sparepart.description }}</h3>
+    <h3>Price: {{ sparepart.price }}</h3>
+    {% csrf_token %}
+    <a href="{% url 'part edit' pk=sparepart.pk %}">Edit</a>
+    <a href="{% url 'spare parts' %}">Back</a>
+
+</body>
+</html>

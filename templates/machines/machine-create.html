@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Machine</title>
+</head>
+<body>
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<form method="post" action="{% url 'machine create' %}">
+    <h1>Create New Machine</h1>
+    {{ form.as_p }}
+    <input type="submit" value="Create Machine">
+    {% csrf_token %}
+</form>
+</body>
+</html>

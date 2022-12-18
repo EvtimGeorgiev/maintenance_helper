@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Not Accessible</title>
+</head>
+<body>
+<h2>Issue '{{ issue.pk }}' is closed and not editable</h2>
+<p>
+    <a href="{% url 'issue details' pk=issue.pk %}">View Issue details</a>
+</p>
+<a href="{% url 'issues' %}">Back to Issue List</a>
+
+</body>
+</html>

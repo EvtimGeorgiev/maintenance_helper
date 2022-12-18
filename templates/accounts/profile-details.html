@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User {{ request.user.name }} details</title>
+</head>
+<body>
+<header>
+    {% include 'base/nav.html' %}
+</header>
+
+<div>
+    <h2>
+        {{ user.username | upper }}
+    </h2>
+</div>
+
+<div>
+    <img src="{{ user.image_url }}" alt="No Image" width="200" height="300">
+</div>
+
+<div>
+    Name: {{ user.get_full_name }}
+</div>
+
+<div>
+    Position: {{ user.position | capfirst }}
+</div>
+
+<a href="{% url 'edit user' pk=user.pk %}">Edit Profile</a>
+
+</body>
+</html>
