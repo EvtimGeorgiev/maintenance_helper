@@ -1,9 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic as views
 
+from maintenance_helper.machines.forms import MachineEditForm
 from maintenance_helper.machines.models import Machine
+
+UserModel = get_user_model()
 
 
 class MachinesListView(views.ListView):
@@ -11,7 +15,11 @@ class MachinesListView(views.ListView):
     model = Machine
     template_name = 'machines/machines_list.html'
 
-    # extra_context = {'pattern': None}   # static context
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     context['user'] = UserModel
+    #     print(context)
+    #     return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -69,8 +77,9 @@ class MachineDetailsView(views.DetailView):
 
 class MachineEditView(views.UpdateView):
     model = Machine
+    # form_class = MachineEditForm
     template_name = 'machines/machine-edit.html'
-    fields = ('name', 'type', 'image_url')
+    fields = ('name', 'type', 'image', 'detailed_info')
 
     def get_success_url(self):
         return reverse_lazy('machine details', kwargs={
@@ -101,5 +110,3 @@ class MachineDeleteView(views.DeleteView):
     #         return HttpResponseRedirect(success_url)
     #     except models.RestrictedError:
     #         return HttpResponse('!!! Machine has assigned issues and cannot be deleted !!!')
-
-

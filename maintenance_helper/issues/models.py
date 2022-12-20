@@ -38,3 +38,6 @@ class Issue(models.Model):
 
     )
 
+    @property
+    def short_description(self):
+        return f'{self.description[0:40]}...'

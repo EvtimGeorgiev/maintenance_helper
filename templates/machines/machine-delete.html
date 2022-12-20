@@ -1,27 +1,23 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Delete Machine</title>
-</head>
-<body>
-<form method="post" action="{% url 'machine delete' pk=machine.pk %}">
-    {{ form.as_p }}
-    Are you sure that you want to delete machine {{ machine.name }}?
-    <div>
-        <input type="submit" value="Delete">
+{% extends 'base/base.html' %}
+
+{% block title %}Delete {{ machine.name }}{% endblock title %}
+{% block page_content %}
+
+    <div class="col-5">
+        <form method="post" action="{% url 'machine delete' pk=machine.pk %}">
+            {{ form.as_p }}
+            Are you sure that you want to delete machine {{ machine.name }}?
+            <div>
+                <input class="btn-danger" type="submit" value="Delete">
+            </div>
+
+            {% csrf_token %}
+        </form>
+
+        <a href="{% url 'machine edit' pk=machine.pk %}">
+            <button>Back</button>
+        </a>
+
     </div>
 
-    {% csrf_token %}
-</form>
-
-<a href="{% url 'machine details' pk=machine.pk %}">
-    <button>Back</button>
-</a>
-
-
-</body>
-</html>
+{% endblock page_content %}

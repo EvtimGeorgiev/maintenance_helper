@@ -1,40 +1,49 @@
+{% extends 'base/base.html' %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Machine details</title>
-</head>
-<body>
+<!-- Navigation-->
+{% block title %}{{ machine.name }} details{% endblock title %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block page_content %}
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6">
+                    {% if machine.image %}
+                        <img class="card-img-top mb-5 mb-md-0" src="{{ machine.image.url }}" alt="..."/></div>
+                    {% else %}
+                        <img class="card-img-top mb-5 mb-md-0" src="{% static 'images/machines/dummy_machine.jpg' %}"/>
+                        </div>
+                    {% endif %}
+            <div class="col-md-6">
+                <div class="small mb-1">Serial Number: {{ machine.serial_number }}</div>
+                <h1 class="display-5 fw-bolder">{{ machine.name }}</h1>
+                <div class="fs-5 mb-5">
+                    <span>{{ machine.type }}</span>
+                </div>
+{#                                <div>Details</div>#}
+{#                                <p class="lead">{{ machine.detailed_info }}</p>#}
+                <div class="d-flex">
+                    <div class="col-3">
+                        <a class="btn btn-outline-dark flex-shrink-0" type="submit"
+                           href="{% url 'machine edit' pk=machine.pk %}">
+                            <i class="bi-cart-fill me-1"></i>
+                            Edit
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <a class="btn btn-outline-dark flex-shrink-0" type="submit"
+                           href="{% url 'machines' %}">
+                            <i class="bi-cart-fill me-1"></i>
+                            Back
+                        </a>
+                    </div>
 
-<h1>{{ machine.name }} </h1>
-<div>
-    {% if machine.image_url %}
-        <img src="{{ machine.image_url }}" alt="machine-image" width="250" height="300">
-    {% else %}
-        <img src="{% static 'images/machine_no_image.jpg' %}" alt="machine-image" width="200" height="300">
-    {% endif %}
-</div>
-<div>
-    <h3>Name: {{ machine.name }}</h3>
-    <h3>Type: {{ machine.type }}</h3>
-    <h3>SN: {{ machine.serial_number }}</h3>
-    <a href="{% url 'machine edit' pk=machine.pk %}">Edit</a>
+                </div>
 
-</div>
-<div>
-    <a href="{% url 'machine delete' pk=machine.pk %}">Delete</a>
-</div>
-<div>
-    <a href="{% url 'machines' %}">Back</a>
-</div>
 
-</body>
-</html>
+            </div>
+        </div>
+        </div>
+    </section>
+
+{% endblock page_content %}

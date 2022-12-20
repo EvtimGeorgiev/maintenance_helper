@@ -22,9 +22,15 @@ class Machine(models.Model):
         null=False,
     )
 
-    image_url = models.URLField(
+    image = models.ImageField(
+        upload_to='images/machines/',
         blank=True,
         null=True,
+    )
+
+    detailed_info = models.TextField(
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
