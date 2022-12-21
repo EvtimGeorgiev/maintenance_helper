@@ -1,38 +1,87 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+{% extends 'base/base.html' %}
 
-</head>
+{% block title %}Spare parts overview{% endblock title %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block page_content %}
+    <section class="py-2">
+{#        {% if request.user.position != 'maintenance' %}#}
+{#            <div class="text-center">#}
+{#                <a class="btn btn-warning" href="{% url 'create oder' %}">Order new parts</a>#}
+{#            </div>#}
+{#        {% endif %}#}
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-<body>
-<div>
-    <a href="{% url 'part create' %}">Create new part</a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Part No</th>
+                        <th scope="col">Created on</th>
+                        <th scope="col">Received on</th>
+                        <th scope="col">Total cost</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-</div>
-<form method="get" action="{% url 'spare parts' %}">
-    <input type="text" name="pattern">
-    <input type="submit" value="Search">
-    {% csrf_token %}
-</form>
-<ul>
-    {% for part in object_list %}
-        <li>
-            {{ part.part_number }} || {{ part.description }}
-            <a href="{% url 'part details' pk=part.pk %}">Details</a>
-        </li>
-    {% endfor %}
-</ul>
+                    {% for order in object_list %}
+                        <tr>
+                            <th scope="row"><a href="{% url 'order details' pk=order.pk %}">{{ order.pk }}</a></th>
+                            <td>{{ order.created_on }}</td>
+                            <td>{{ order.received_on }}</td>
+                            <td>{{ order.total_price|floatformat:2 }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
 
-<a href="{% url 'index' %}">Back</a>
+                </table>
 
-</body>
-</html>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock page_content %}
+
+
+
+
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>Document</title>#}
+{##}
+{#</head>#}
+{##}
+{#<header>#}
+{#    {% include 'base/nav.html' %}#}
+{#</header>#}
+{##}
+{#<body>#}
+{#<div>#}
+{#    <a href="{% url 'part create' %}">Create new part</a>#}
+{##}
+{#</div>#}
+{#<form method="get" action="{% url 'spare parts' %}">#}
+{#    <input type="text" name="pattern">#}
+{#    <input type="submit" value="Search">#}
+{#    {% csrf_token %}#}
+{#</form>#}
+{#<ul>#}
+{#    {% for part in object_list %}#}
+{#        <li>#}
+{#            {{ part.part_number }} || {{ part.description }}#}
+{#            <a href="{% url 'part details' pk=part.pk %}">Details</a>#}
+{#        </li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+{##}
+{#<a href="{% url 'index' %}">Back</a>#}
+{##}
+{#</body>#}
+{#</html>#}
