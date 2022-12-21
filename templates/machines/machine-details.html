@@ -2,6 +2,7 @@
 {% load static %}
 <!-- Navigation-->
 {% block title %}{{ machine.name }} details{% endblock title %}
+{% block header %}Machine details{% endblock header %}
 
 {% block page_content %}
     <section class="py-5">
@@ -20,8 +21,8 @@
                 <div class="fs-5 mb-5">
                     <span>{{ machine.type }}</span>
                 </div>
-{#                                <div>Details</div>#}
-{#                                <p class="lead">{{ machine.detailed_info }}</p>#}
+                {#                                <div>Details</div>#}
+                {#                                <p class="lead">{{ machine.detailed_info }}</p>#}
                 <div class="d-flex">
                     <div class="col-3">
                         <a class="btn btn-outline-dark flex-shrink-0" type="submit"

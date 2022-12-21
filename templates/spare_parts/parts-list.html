@@ -3,33 +3,43 @@
 {% block title %}Spare parts overview{% endblock title %}
 
 {% block page_content %}
+    <a class="btn btn-primary mx-3 my-2 float-sm-start" href="{% url 'index' %}">Back</a>
+    <div class="container col-11 mt-2">
+        <form method="get" action="{% url 'spare parts' %}">
+            <input class="border-dark rounded" type="text" name="pattern">
+            <input class="btn btn-primary" type="submit" value="Search">
+            {% csrf_token %}
+        </form>
+    </div>
+
     <section class="py-2">
-{#        {% if request.user.position != 'maintenance' %}#}
-{#            <div class="text-center">#}
-{#                <a class="btn btn-warning" href="{% url 'create oder' %}">Order new parts</a>#}
-{#            </div>#}
-{#        {% endif %}#}
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {#        {% if request.user.position != 'maintenance' %}#}
+        {#            <div class="text-center">#}
+        {#                <a class="btn btn-warning" href="{% url 'create oder' %}">Order new parts</a>#}
+        {#            </div>#}
+        {#        {% endif %}#}
+        <div class="container col-4 float-sm-start">
+            <div class=" row-cols-2 row-cols-md-3 row-cols-xl-4">
 
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">Part No</th>
-                        <th scope="col">Created on</th>
-                        <th scope="col">Received on</th>
-                        <th scope="col">Total cost</th>
-                        <th scope="col"></th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col" class="text-sm-end">On Stock</th>
+
                     </tr>
                     </thead>
                     <tbody>
 
-                    {% for order in object_list %}
+                    {% for part in object_list %}
                         <tr>
-                            <th scope="row"><a href="{% url 'order details' pk=order.pk %}">{{ order.pk }}</a></th>
-                            <td>{{ order.created_on }}</td>
-                            <td>{{ order.received_on }}</td>
+                            <th scope="row"><a href="{% url 'part details' pk=part.pk %}">{{ part.pk }}</a></th>
+                            <td>{{ part.description }}</td>
+                            <td>{{ part.price|floatformat:2 }}</td>
                             <td>{{ order.total_price|floatformat:2 }}</td>
+                            <td>{{ part.qty_on_stock }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -40,6 +50,10 @@
             </div>
         </div>
     </section>
+    {% if request.user.position == 'maintenance' %}
+        <a class="btn btn-warning float-sm-start" href="{% url 'part create' %}">Create new Part</a>
+    {% endif %}
+
 
 {% endblock page_content %}
 

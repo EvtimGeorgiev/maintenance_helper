@@ -1,23 +1,48 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Spare Part</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block title %}Create part{% endblock title %}
+{% block header %}Create Part{% endblock header %}
+{% block page_content %}
 
-<body>
-<form method="post" action="{% url 'part create' %}">
-    {{ form.as_p }}
-    <input type="submit" value="Create">
-    {% csrf_token %}
-</form>
-<a href="{% url 'spare parts' %}">Back</a>
-</body>
-</html>
+    <div class="container align-items-start justify-content-start">
+        <div class="text-end col-4">
+            <form method="post" action="{% url 'part create' %}" enctype="multipart/form-data">
+                {% for field in form %}
+                    <p class="col-7">
+                    <h5>{{ field.name }}: {{ field }}</h5>
+                    </p>
+                {% endfor %}
+                <button type="submit" class="btn btn-success">Save</button>
+                {% csrf_token %}
+            </form>
+            <a class="btn btn-primary top-0 float-sm-start" href="{% url 'spare parts' %}">Back</a>
+        </div>
+    </div>
+
+
+{% endblock page_content %}
+
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>Create Spare Part</title>#}
+{#</head>#}
+{##}
+{#<header>#}
+{#    {% include 'base/nav.html' %}#}
+{#</header>#}
+{##}
+{#<body>#}
+{#<form method="post" action="{% url 'part create' %}">#}
+{#    {{ form.as_p }}#}
+{#    <input type="submit" value="Create">#}
+{#    {% csrf_token %}#}
+{#</form>#}
+{#<a href="{% url 'spare parts' %}">Back</a>#}
+{#</body>#}
+{#</html>#}

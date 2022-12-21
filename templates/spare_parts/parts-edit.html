@@ -1,26 +1,19 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Part</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block title %}Edit {{ sparepart.part_number }}{% endblock title %}
 
-<body>
-<h2>Edit Part: <h3>{{ sparepart.part_number }}</h3></h2>
-<form method="post" action="{% url 'part edit' pk=sparepart.pk %}">
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-    {% csrf_token %}
-</form>
 
-<a href="{% url 'part details' pk=sparepart.pk %}">Back</a>
+{% block page_content %}
+    <div class="container align-items-start justify-content-start mt-5">
+        <h2>Edit Part: {{ sparepart.part_number }}</h2>
+        <form class="form-floating" method="post" action="{% url 'part edit' pk=sparepart.pk %}"
+              enctype="multipart/form-data">
+            {{ form.as_p }}
+            <a class="btn btn-primary" href="{% url 'part details' pk=sparepart.pk %}">Back</a>
+            <input class="btn btn-success" type="submit" value="Save">
+            {% csrf_token %}
+        </form>
+    </div>
 
-</body>
-</html>
+
+{% endblock page_content %}

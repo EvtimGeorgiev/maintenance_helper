@@ -33,13 +33,18 @@ class SparePart(models.Model):
         null=False,
     )
 
-    image_url = models.URLField(
+    image = models.ImageField(
         blank=True,
         null=True,
+        verbose_name='image'
     )
 
     def __str__(self):
         return self.part_number
+
+    @property
+    def qty_on_stock(self):
+        return Stock.objects.get(part_number=self.part_number).quantity
 
 
 class Stock(models.Model):

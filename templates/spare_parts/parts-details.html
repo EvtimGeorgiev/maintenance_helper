@@ -1,25 +1,77 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Part Details</title>
-</head>
+{% extends 'base/base.html' %}
+{% load static %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block title %}{{ sparepart.part_number }}{% endblock title %}
 
-<body>
-    <h2>Part Number: {{ sparepart.part_number }}</h2>
-<img src="{{ sparepart.image_url }}" alt="Part Image" width="200" height="200">
-    <h3>Description: {{ sparepart.description }}</h3>
-    <h3>Price: {{ sparepart.price }}</h3>
-    {% csrf_token %}
-    <a href="{% url 'part edit' pk=sparepart.pk %}">Edit</a>
-    <a href="{% url 'spare parts' %}">Back</a>
 
-</body>
-</html>
+{% block page_content %}
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-4 gy-5">
+                    {% if sparepart.image %}
+                        <img class="card-img-top mb-5 mb-md-0" src="{{ sparepart.image.url }}" alt="..."/></div>
+                    {% else %}
+                        <img class="card-img-top mb-5 mb-md-0" src="{% static 'images/dummy_sparepart.jpg' %}"
+                             alt="Spare_part.img"/>
+                        </div>
+                    {% endif %}
+            <div class="col-md-4">
+                <div class="small mb-1"><h3 class="fw-bold">Part Number: {{ sparepart.part_number }}</h3></div>
+                <h1 class="display-6 fw-bold">{{ sparepart.description }}</h1>
+                <div class="fs-5 mb-5">
+                    <span>Price: {{ sparepart.price }}EUR</span>
+                </div>
+                {#                                <div>Details</div>#}
+                {#                                <p class="lead">{{ machine.detailed_info }}</p>#}
+                <div class="d-flex">
+                    {% if request.user.position == 'maintenance' %}
+                        <div class="col-3">
+                            <a class="btn btn-outline-dark flex-shrink-0" type="submit"
+                               href="{% url 'part edit' pk=sparepart.pk %}">
+                                <i class="bi-cart-fill me-1"></i>
+                                Edit
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="col-3">
+                        <a class="btn btn-outline-dark flex-shrink-0" type="submit"
+                           href="{% url 'spare parts' %}">
+                            <i class="bi-cart-fill me-1"></i>
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+{% endblock page_content %}
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>Part Details</title>#}
+{#</head>#}
+{##}
+{#<header>#}
+{#    {% include 'base/nav.html' %}#}
+{#</header>#}
+{##}
+{#<body>#}
+{#    <h2>Part Number: {{ sparepart.part_number }}</h2>#}
+{#<img src="{{ sparepart.image_url }}" alt="Part Image" width="200" height="200">#}
+{#    <h3>Description: {{ sparepart.description }}</h3>#}
+{#    <h3>Price: {{ sparepart.price }}</h3>#}
+{#    {% csrf_token %}#}
+{#    <a href="{% url 'part edit' pk=sparepart.pk %}">Edit</a>#}
+{#    <a href="{% url 'spare parts' %}">Back</a>#}
+{##}
+{#</body>#}
+{#</html>#}

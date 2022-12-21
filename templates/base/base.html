@@ -17,7 +17,16 @@
 <body>
 <!-- Responsive navbar-->
 {% include 'base/nav.html' %}
-<!-- Page Content-->
+
+    <header class="bg-success py-2">
+        <div class="container px-4 px-lg-5 my-1">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">{% block header %} {% endblock header %}</h1>
+            </div>
+        </div>
+    </header>
+
+
 {% block page_content %}
 
 {% endblock page_content %}

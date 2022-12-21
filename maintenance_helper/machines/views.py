@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 
 from maintenance_helper.machines.forms import MachineEditForm
@@ -42,13 +42,13 @@ class MachineCreateView(views.CreateView):
     model = Machine
     fields = '__all__'
 
-    success_url = reverse_lazy('index')  # static redirect url
+    # success_url = reverse_lazy('index')  # static redirect url
 
     # dynamic redirection
-    # def get_success_url(self):
-    #     return reverse('machine details', kwargs={
-    #         'pk': self.object.pk,
-    #     })
+    def get_success_url(self):
+        return reverse('machine details', kwargs={
+            'pk': self.object.pk,
+        })
 
 
 class MachineDetailsView(views.DetailView):

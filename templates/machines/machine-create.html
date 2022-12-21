@@ -1,14 +1,17 @@
 {% extends 'base/base.html' %}
 
 {% block title %}{{ machine.name }} edit{% endblock title %}
+{% block header %}Create Machine{% endblock header %}
+
 
 {% block page_content %}
+
     <div class="text-center">
         <form method="post" action="{% url 'machine create' %}" enctype="multipart/form-data">
-        <h3>Add New Machine</h3>
+            <h3>Add New Machine</h3>
             {% for field in form %}
                 <p class="col-7">
-                    <h5>{{ field.name }}: {{ field }}</h5>
+                <h5>{{ field.name }}: {{ field }}</h5>
                 </p>
             {% endfor %}
 

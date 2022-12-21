@@ -25,7 +25,10 @@ class SparePartCreateView(views.CreateView):
     fields = '__all__'
     template_name = 'spare_parts/part-create.html'
 
-    success_url = reverse_lazy('part create')
+    def get_success_url(self):
+        return reverse_lazy('part details', kwargs={
+            'pk': self.object.pk,
+        })
 
 
 class SparePartsDetailView(views.DetailView):
@@ -36,9 +39,14 @@ class SparePartsDetailView(views.DetailView):
 
 class SparePartEditView(views.UpdateView):
     model = SparePart
-    fields = ('description', 'price', 'image_url')
+    fields = ('description', 'price', 'image')
     template_name = 'spare_parts/parts-edit.html'
     success_url = reverse_lazy('spare parts')
+
+    def get_success_url(self):
+        return reverse_lazy('part details', kwargs={
+            'pk': self.object.pk,
+        })
 
 
 class SparePartDeleteView(views.DeleteView):
