@@ -1,57 +1,85 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Order details</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block page_content %}
+    <div class="container px-1">
+        <h4 class="py-3">Order No: {{ order.order_number }}</h4>
+        {% if order.received_on %}
+            <h4>Received on: {{ order.received_on }}</h4>
+        {% else %}
+            <div>
+                <h4>Order Status: Not received</h4>
+            </div>
+            </div>
 
-<body>
+            {% if request.user.position == 'maintenance' and ordered_items%}
+                <form method="get" action="{% url 'order details' pk=order.order_number %}">
+                    <button class="btn-primary" type="submit" value="{{ order.order_number }}" name="Receive">Mark as
+                        Received
+                    </button>
+                </form>
+            {% endif %}
+        {% endif %}
 
-<h4>Order No: {{ order.order_number }}</h4>
-{% if order.received_on %}
-    <h4>Received on: {{ order.received_on }}</h4>
-{% else %}
-    <div>
-        <h4>Order Status: Not received</h4>
-    </div>
-    <p>
-    <form method="get" action="{% url 'order details' pk=order.order_number %}">
-        <button type="submit" value="{{ order.order_number }}" name="Receive">Mark as Received</button>
-    </form>
-    </p>
-{% endif %}
+    {% if not ordered_items %}
+        <p class="text-danger">No items in this order. Please Log IT ticket and provide order number in the details.</p>
 
-{% if not ordered_items %}
-    No info about order {{ order.order_number }}
-{% else %}
-    <table>
-        <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Price, EUR</th>
-            <th>Total price, EUR</th>
-        </tr>
-        {% for item in ordered_items %}
-            <tr>
-                <td>{{ item.part_number }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.price }}</td>
-                <td>{{ item.total_items_price }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <h4>Total: {{ order.total_price }} EUR</h4>
+    {% else %}
 
-{% endif %}
 
-<a href="{% url 'orders list' %}">Back</a>
+        <section class="py-5 col-6">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-</body>
-</html>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Price, EUR</th>
+                            <th scope="col">Total, EUR</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for item in ordered_items %}
+                            <tr>
+                                <th>{{ item.part_number }}</th>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.total_items_price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+            </div>
+        </section>
+
+        {#        <table>#}
+        {#            <tr>#}
+        {#                <th>Item</th>#}
+        {#                <th>Qty</th>#}
+        {#                <th>Price, EUR</th>#}
+        {#                <th>Total price, EUR</th>#}
+        {#            </tr>#}
+        {#            {% for item in ordered_items %}#}
+        {#                <tr>#}
+        {#                    <td>{{ item.part_number }}</td>#}
+        {#                    <td>{{ item.quantity }}</td>#}
+        {#                    <td>{{ item.price }}</td>#}
+        {#                    <td>{{ item.total_items_price }}</td>#}
+        {#                </tr>#}
+        {#            {% endfor %}#}
+        {#        </table>#}
+        <h4 class="fw-bold">Total: {{ order.total_price }} EUR</h4>
+
+    {% endif %}
+
+    <a class="btn btn-primary" href="{% url 'orders list' %}">Back</a>
+
+{% endblock page_content %}

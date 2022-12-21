@@ -1,44 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block page_content %}
 
-<body>
-<div>
-    <a href="{% url 'create oder' %}">Order Parts</a>
-</div>
+    <h3 class="text-capitalize text-info text-center py-2">Orders overview</h3>
 
-<table>
-    <tr>
-        <th>Order number</th>
-        <th>Created on</th>
-        <th>Received on</th>
-        <th>Amount</th>
-    </tr>
-    {% for order in object_list %}
-        <tr>
-            <td>{{ order.order_number }} |</td>
-            <td>{{ order.created_on }} |</td>
-            <td>
-                {% if order.received_on %}
-                    {{ order.received_on }} |
-                {% else %}
-                    {{ 'Not received' }} |
-                {% endif %}
-            </td>
-            <td>{{ order.total_price }}</td>
-            <td>
-                <a href="{% url 'order details' pk=order.order_number %}">Order Details</a>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
+    <section class="py-2">
+        {% if request.user.position != 'maintenance' %}
+            <div class="text-center">
+                <a class="btn btn-warning" href="{% url 'create oder' %}">Order new parts</a>
+            </div>
+        {% endif %}
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-</body>
-</html>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Order No</th>
+                        <th scope="col">Created on</th>
+                        <th scope="col">Received on</th>
+                        <th scope="col">Total cost</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for order in object_list %}
+                        <tr>
+                            <th scope="row"><a href="{% url 'order details' pk=order.pk %}">{{ order.pk }}</a></th>
+                            <td>{{ order.created_on }}</td>
+                            <td>{{ order.received_on }}</td>
+                            <td>{{ order.total_price }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+    {#<table>#}
+    {#    <tr>#}
+    {#        <th>Order number</th>#}
+    {#        <th>Created on</th>#}
+    {#        <th>Received on</th>#}
+    {#        <th>Amount</th>#}
+    {#    </tr>#}
+    {#    {% for order in object_list %}#}
+    {#        <tr>#}
+    {#            <td>{{ order.order_number }} |</td>#}
+    {#            <td>{{ order.created_on }} |</td>#}
+    {#            <td>#}
+    {#                {% if order.received_on %}#}
+    {#                    {{ order.received_on }} |#}
+    {#                {% else %}#}
+    {#                    {{ 'Not received' }} |#}
+    {#                {% endif %}#}
+    {#            </td>#}
+    {#            <td>{{ order.total_price }}</td>#}
+    {#            <td>#}
+    {#                <a href="{% url 'order details' pk=order.order_number %}">Order Details</a>#}
+    {#            </td>#}
+    {#        </tr>#}
+    {#    {% endfor %}#}
+    {#</table>#}
+
+{% endblock page_content %}

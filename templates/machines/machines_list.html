@@ -1,14 +1,14 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block title %}Machines{% endblock title %}
+{% block title %}Issues{% endblock title %}
 
 {% block page_content %}
     <!-- Header-->
     <header class="bg-success py-5">
         <div class="container px-4 px-lg-5 my-1">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Machines overview</h1>
+                <h1 class="display-4 fw-bolder">Issues overview</h1>
 
                 {#                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>#}
             </div>
@@ -16,11 +16,11 @@
     </header>
     <!-- Section-->
     <section class="py-5">
-        {% if request.user.position == "maintenance" or request.user.position == 'admin'%}
-            <div class="text-center">
-                <a class="btn btn-warning" href="{% url 'machine create' %}">Create new Machine</a>
-            </div>
-        {% endif %}
+{#        {% if request.user.position == "maintenance" or request.user.position == 'admin'%}#}
+{#            <div class="text-center">#}
+{#                <a class="btn btn-warning" href="{% url 'machine create' %}">Create new Machine</a>#}
+{#            </div>#}
+{#        {% endif %}#}
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 {% for machine in object_list %}

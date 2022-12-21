@@ -41,3 +41,13 @@ class Issue(models.Model):
     @property
     def short_description(self):
         return f'{self.description[0:40]}...'
+
+    @property
+    def status(self):
+        if self.closed_on:
+            return 'closed'
+        return 'open'
+
+    @property
+    def create_on_date(self):
+        return self.created_on.date()

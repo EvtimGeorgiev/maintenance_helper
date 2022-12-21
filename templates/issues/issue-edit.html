@@ -1,23 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Issue</title>
-</head>
-<body>
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% extends 'base/base.html' %}
 
-<form method="post" action="{% url 'issue edit' pk=issue.pk %}">
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-    <input type="submit" value="Close" name="close issue">
-    {% csrf_token %}
-</form>
+{% block page_content %}
+    <div class="container px-1">
+        <form method="post" action="{% url 'issue edit' pk=issue.pk %}">
+            {{ form.as_p }}
+            {% if request.user.position in 'maintenance, technician' %}
+                <input class="btn-primary" type="submit" value="Save">
+                <input class="btn-warning" type="submit" value="Close Issue" name="close issue">
+            {% endif %}
+            {% csrf_token %}
+        </form>
+    </div>
 
-</body>
-</html>
+{% endblock page_content %}

@@ -11,7 +11,7 @@ from maintenance_helper.issues.models import Issue
 class IssuesListView(views.ListView):
     context_object_name = 'issues_list'
     model = Issue
-    template_name = 'issues/issues-list.html'
+    template_name = 'issues/issues_list.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -58,6 +58,7 @@ class IssueEditView(views.UpdateView):
         if 'close issue' in request.POST:
             post = request.POST.copy()
             post['closed_on'] = datetime.datetime.today()
+            post['closed_by'] = request.user.username
             request.POST = post
         return super().post(request, *args, **kwargs)
 

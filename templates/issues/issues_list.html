@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Machines{% endblock title %}
+
+{% block page_content %}
+    <!-- Header-->
+    <header class="bg-success py-5">
+        <div class="container px-4 px-lg-5 my-1">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Issues overview</h1>
+
+                {#                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>#}
+            </div>
+        </div>
+    </header>
+    <!-- Section-->
+    <section class="py-5">
+        {% if request.user.position != 'manager' and request.user.is_authenticated %}
+            <div class="text-center">
+                <a class="btn btn-danger" href="{% url 'issue create' %}">Log Issue</a>
+            </div>
+        {% endif %}
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">{{ ID }}</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Machine</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Created by</th>
+                        <th scope="col">Created on</th>
+                        <th scope="col">Closed by</th>
+                        <th scope="col">Closed on</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for issue in object_list %}
+                        <tr>
+                            <th scope="row"><a href="{% url 'issue details' pk=issue.pk%}">{{ issue.pk }}</a></th>
+                            <td>{{ issue.status|capfirst }}</td>
+                            <td>{{ issue.machine }}</td>
+                            <td>{{ issue.short_description }}</td>
+                            <td>{{ issue.created_by }}</td>
+                            <td>{{ issue.created_on }}</td>
+
+                            {% if issue.status == 'closed' %}
+                                <td>{{ issue.closed_by }}</td>
+                                <td>{{ issue.closed_on }}</td>
+                            {% else %}
+                                <td>-</td>
+                                <td>-</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+    </section>
+
+{% endblock page_content %}
