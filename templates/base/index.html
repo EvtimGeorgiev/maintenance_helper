@@ -34,46 +34,52 @@
         {#                important information or display a clever tagline!</p></div>#}
         {#        </div>#}
         <!-- Content Row-->
-        <div class="row gx-4 gx-lg-5">
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <img src="{% static 'images/orders.jpg' %}" alt="Orders.img">
-                    <div class="card-body">
-                        <h2 class="card-title">Orders</h2>
-                        <p class="card-text">{{ open_orders_count }} open orders</p>
+        <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
+            {% if request.user.position in 'maintenance, manager' %}
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <img src="{% static 'images/orders.jpg' %}" alt="Orders.img">
+                        <div class="card-body">
+                            <h2 class="card-title">Orders</h2>
+                            <p class="card-text">{{ open_orders_count }} open orders</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'orders list' %}">
+                            Manage Orders</a></div>
                     </div>
-                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'orders list' %}">
-                        Manage Orders</a></div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <img src="{% static 'images/stock.jpg' %}" alt="Stock.img">
-                    <div class="card-body">
-                        <h2 class="card-title">Stock</h2>
-                        <p class="card-text">{{ items_below_min }}
-                            {% if items_below_min == 1 %}
-                                item is
-                            {% else %}
-                                items are
-                            {% endif %}
-                            below min stock qty</p>
+            {% endif %}
+            {% if request.user.position in 'maintenance, technician, manager' %}
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <img src="{% static 'images/stock.jpg' %}" alt="Stock.img">
+                        <div class="card-body">
+                            <h2 class="card-title">Stock</h2>
+                            <p class="card-text">{{ items_below_min }}
+                                {% if items_below_min == 1 %}
+                                    item is
+                                {% else %}
+                                    items are
+                                {% endif %}
+                                below min stock qty
+                            </p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'stock list' %}">
+                            Manage Stock</a></div>
                     </div>
-                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'stock list' %}">
-                        Manage Stock</a></div>
                 </div>
-            </div>
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <img src="{% static 'images/spares/spares.jpg' %}" alt="Spares.img">
-                    <div class="card-body">
-                        <h2 class="card-title">Spare Parts</h2>
-                        <p class="card-text"></p>
+
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <img src="{% static 'images/spares/spares.jpg' %}" alt="Spares.img">
+                        <div class="card-body">
+                            <h2 class="card-title">Spare Parts</h2>
+                            <p class="card-text"></p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'spare parts' %}">
+                            Manage Spares</a></div>
                     </div>
-                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'spare parts' %}">
-                        Manage Spares</a></div>
                 </div>
-            </div>
+            {% endif %}
 
         </div>
     </div>

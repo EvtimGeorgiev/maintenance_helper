@@ -30,7 +30,7 @@
                             <th scope="row"><a href="{% url 'order details' pk=order.pk %}">{{ order.pk }}</a></th>
                             <td>{{ order.created_on }}</td>
                             <td>{{ order.received_on }}</td>
-                            <td>{{ order.total_price }}</td>
+                            <td>{{ order.total_price|floatformat:2 }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

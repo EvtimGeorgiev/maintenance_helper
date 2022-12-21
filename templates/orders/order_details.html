@@ -47,8 +47,8 @@
                                 <th>{{ item.part_number }}</th>
                                 <td>{{ item.description }}</td>
                                 <td>{{ item.quantity }}</td>
-                                <td>{{ item.price }}</td>
-                                <td>{{ item.total_items_price }}</td>
+                                <td>{{ item.price|floatformat:2 }}</td>
+                                <td>{{ item.total_items_price|floatformat:2 }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
