@@ -10,7 +10,7 @@
             <div class="col-lg-6 gx-3">
                 <img class="img-fluid rounded mb-4 mb-lg-0" src="{% static "images/machines/machines.png" %}"
                      alt="Machine.img">
-                <a class="btn btn-primary" href="{% url 'machines' %}">Show machines</a>
+                <a class="btn btn-primary" href="{% url 'machines' %}">View machines</a>
             </div>
             <div class="col-lg-6 d-flex flex-column">
                 <h3 class="font-weight-light">Latest Issues</h3>
@@ -37,6 +37,7 @@
         <div class="row gx-4 gx-lg-5">
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
+                    <img src="{% static 'images/orders.jpg' %}" alt="Orders.img">
                     <div class="card-body">
                         <h2 class="card-title">Orders</h2>
                         <p class="card-text">{{ open_orders_count }} open orders</p>
@@ -47,8 +48,7 @@
             </div>
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
-                    <img src="https://as1.ftcdn.net/v2/jpg/00/85/33/82/1000_F_85338213_N1yySFoUcanlB5fWFd9EZh5cq32j80jM.jpg"
-                         alt="image.img">
+                    <img src="{% static 'images/stock.jpg' %}" alt="Stock.img">
                     <div class="card-body">
                         <h2 class="card-title">Stock</h2>
                         <p class="card-text">{{ items_below_min }}
@@ -65,10 +65,10 @@
             </div>
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
+                    <img src="{% static 'images/spares/spares.jpg' %}" alt="Spares.img">
                     <div class="card-body">
                         <h2 class="card-title">Spare Parts</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex
-                            numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                        <p class="card-text"></p>
                     </div>
                     <div class="card-footer"><a class="btn btn-primary btn-sm" href="{% url 'spare parts' %}">
                         Manage Spares</a></div>
