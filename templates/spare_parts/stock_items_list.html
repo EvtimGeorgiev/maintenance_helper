@@ -1,44 +1,93 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Stock</title>
-</head>
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% extends 'base/base.html' %}
 
-<body>
-<h2>Stock Items</h2>
-<table>
-    <tr>
-        <th>Part Number |</th>
-        <th>Description |</th>
-        <th>Qty on Stock |</th>
-        <th>Min Stock Qty</th>
-    </tr>
-    {% for item in object_list %}
-        <tr>
-            <td>{{ item.part_number_id }}</td>
-            <td>{{ item.description }}</td>
-            {% if item.quantity < item.min_stock_qty %}
-                <td style="text-align: center; color: red">{{ item.quantity }}</td>
-            {% else %}
-                <td style="text-align: center">{{ item.quantity }}</td>
-            {% endif %}
+{% block title %}Stock{% endblock title %}
+
+{% block header %}Stock Overview{% endblock header %}
+
+{% block page_content %}
+
+    <section class="py-2 col-8">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Part Number</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Qty on Stock</th>
+                        <th scope="col">Min Stock Qty</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for part in object_list %}
+                        <tr>
+                            <th>{{ part.part_number }}</th>
+                            <td>{{ part.description }}</td>
+                            <td>{{ part.quantity }}</td>
+                            <td>{{ part.min_stock_qty }}</td>
+                            {% if request.user.position == 'maintenance' %}
+                                <td><a href="{% url 'edit stock item' pk=part.pk %}">Edit</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+{% endblock page_content %}
 
 
-            <td style="text-align: center">{{ item.min_stock_qty }}</td>
 
 
-            <td>
-                <a href="{% url 'edit stock item' pk=item.part_number_id %}">Edit</a>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
-</body>
-</html>
+
+
+
+
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>Stock</title>#}
+{#</head>#}
+{#<header>#}
+{#    {% include 'base/nav.html' %}#}
+{#</header>#}
+{##}
+{#<body>#}
+{#<h2>Stock Items</h2>#}
+{#<table>#}
+{#    <tr>#}
+{#        <th>Part Number |</th>#}
+{#        <th>Description |</th>#}
+{#        <th>Qty on Stock |</th>#}
+{#        <th>Min Stock Qty</th>#}
+{#    </tr>#}
+{#    {% for item in object_list %}#}
+{#        <tr>#}
+{#            <td>{{ item.part_number_id }}</td>#}
+{#            <td>{{ item.description }}</td>#}
+{#            {% if item.quantity < item.min_stock_qty %}#}
+{#                <td style="text-align: center; color: red">{{ item.quantity }}</td>#}
+{#            {% else %}#}
+{#                <td style="text-align: center">{{ item.quantity }}</td>#}
+{#            {% endif %}#}
+{##}
+{##}
+{#            <td style="text-align: center">{{ item.min_stock_qty }}</td>#}
+{##}
+{##}
+{#            <td>#}
+{#                <a href="{% url 'edit stock item' pk=item.part_number_id %}">Edit</a>#}
+{#            </td>#}
+{#        </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#</body>#}
+{#</html>#}

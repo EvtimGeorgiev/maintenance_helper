@@ -58,6 +58,10 @@ class StockItemsView(views.ListView):
     fields = '__all__'
     template_name = 'spare_parts/stock_items_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('part_number')
+
 
 class StockItemEdit(views.UpdateView):
     context_object_name = 'part'
@@ -65,3 +69,4 @@ class StockItemEdit(views.UpdateView):
     fields = ('quantity', 'min_stock_qty')
     template_name = 'spare_parts/stock_item_edit.html'
     success_url = reverse_lazy('stock list')
+

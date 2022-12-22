@@ -1,25 +1,46 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit stock item</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block title %}Edit {{ part.part_number }}{% endblock title %}
 
-<body>
-    Part Number: {{ part.pk }}
-    <form method="post" action="{% url 'edit stock item' pk=part.pk %}">
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-        {% csrf_token %}
-    </form>
 
-    <a href="{% url 'stock list' %}">Back</a>
-</body>
-</html>
+{% block page_content %}
+    <div class="container align-items-start justify-content-start mt-5">
+        <h2>Edit stock for : {{ part.part_number }}</h2>
+        <form class="form-floating" method="post" action="{% url 'edit stock item' pk=part.pk %}"
+              enctype="multipart/form-data">
+            {{ form.as_p }}
+            <a class="btn btn-primary" href="{% url 'stock list' %}">Back</a>
+            <input class="btn btn-success" type="submit" value="Save">
+            {% csrf_token %}
+        </form>
+    </div>
+
+
+{% endblock page_content %}
+
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>Edit stock item</title>#}
+{#</head>#}
+{##}
+{#<header>#}
+{#    {% include 'base/nav.html' %}#}
+{#</header>#}
+{##}
+{#<body>#}
+{#    Part Number: {{ part.pk }}#}
+{#    <form method="post" action="{% url 'edit stock item' pk=part.pk %}">#}
+{#        {{ form.as_p }}#}
+{#        <input type="submit" value="Save">#}
+{#        {% csrf_token %}#}
+{#    </form>#}
+{##}
+{#    <a href="{% url 'stock list' %}">Back</a>#}
+{#</body>#}
+{#</html>#}
