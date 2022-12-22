@@ -1,69 +1,74 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Your Cart</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block title %}Cart{% endblock title %}
 
-<body>
+{% block page_content %}
 
-{% if not object_list %}
-    Your Cart is Empty
-{% else %}
+    <div class="container my-3 mx-3">
+        {% if not object_list %}
+            Your Cart is Empty
+        {% else %}
 
 
-    <h3>Items in Cart</h3>
-    <table>
-        <tr>
-            <td><strong>Part Number</strong></td>
-            <td><strong>Description</strong></td>
-            <td><strong>Qty</strong></td>
-        </tr>
-        {% for item in object_list %}
-            <tr>
-                <td>{{ item.part_number }}</td>
-                <td>{{ item.description }}</td>
 
-                <td>
-                    <form id="form" method="get" action="{% url 'show cart' %}">
-                        <label>
-                            <input name={{ item.part_number }} type="text" value="{{ item.quantity }}" size="1">
-                        </label>
-                        <button type="submit" value="{{ item.part_number }}" name="Update">Update</button>
-                        <button type="submit" value="{{ item.part_number }}" name="Remove" style="color: red">Remove
-                        </button>
-                    </form>
-                </td>
-                {#            <td>#}
-                {#                <a href="{% url  %}"></a>#}
-                {#            </td>#}
-                {#            <td>#}
-                {#                <input type="submit" form="form" name="{{ item.part_number }}" style="color: red" value="Remove">#}
-                {#            </td>#}
+            <h3>Items in Cart</h3>
+            <table class="table w-auto">
+                <tr>
+                    <th>Part Number</th>
+                    <th>Description</th>
+                    <th>Price, EUR</th>
+                    <th>Total, EUR</th>
+                    <th>Qty</th>
+                    {#                <th></th>#}
+                    {#                <th></th>#}
 
-            </tr>
-        {% endfor %}
-    </table>
-    <div>
-        Total price: {{ total_price }}
+                </tr>
+                {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.part_number }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.item_cart_total }}</td>
+
+                        <td>
+                            <form id="form" method="get" action="{% url 'show cart' %}">
+                                <label>
+                                    <input name={{ item.part_number }} type="number" min="1" value="{{ item.quantity }}" size="1">
+                                </label>
+                                <button class="btn-outline-success text-black" type="submit" value="{{ item.part_number }}"
+                                        name="Update">Update
+                                </button>
+                                <button class="btn-outline-danger text-black" type="submit" value="{{ item.part_number }}" name="Remove" style="color: red">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+
+                        {#            <td>#}
+                        {#                <a href="{% url  %}"></a>#}
+                        {#            </td>#}
+                        {#            <td>#}
+                        {#                <input type="submit" form="form" name="{{ item.part_number }}" style="color: red" value="Remove">#}
+                        {#            </td>#}
+
+                    </tr>
+                {% endfor %}
+            </table>
+            <div>
+                Total price: <b>{{ total_price }}</b>
+            </div>
+
+            <p class="my-2">
+                <button class="btn btn-warning" form="form" name="Order">Place Order</button>
+            </p>
+
+        {% endif %}
+        <p>
+            <a class="btn btn-primary" href="{% url 'create oder' %}">Back</a>
+        </p>
     </div>
 
-    <p>
-    <button form="form" name="Order">Place Order</button>
-    </p>
-
-{% endif %}
 
 
-<p>
-    <a href="{% url 'create oder' %}">Back</a>
-</p>
-</body>
-</html>
+
+{% endblock page_content %}

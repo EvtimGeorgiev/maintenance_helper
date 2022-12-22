@@ -1,71 +1,79 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+{% extends 'base/base.html' %}
 
-<header>
-    {% include 'base/nav.html' %}
-    <div>
-        You have {{ total_cart_qty }} item(s) in your <a href="{% url 'show cart' %}">Cart</a>
+{% block title %}Order parts{% endblock title %}
+
+{% block page_content %}
+
+    <div class="container col-3 mx-2 my-2">
+        <p class="mx-2 my-2 float-md-start">
+            You have {{ total_cart_qty }} item(s) in your <a class="text-uppercase font-monospace"
+                                                             href="{% url 'show cart' %}">Cart</a>
+        </p>
+
+
+        {#        {% if total_cart_qty != 0 %}#}
+        {#            <button class="float-end btn-warning" type="submit" form="form" name="Order">Place Order</button>#}
+        {#        {% endif %}#}
+
     </div>
-</header>
 
-<body>
-<h3>Add items to Cart</h3>
 
-<form method="get" id="form" action="{% url 'create oder' %}">
-    <label>
-        <input name="pattern" placeholder="Search Part number:">
-    </label>
+    <div class="container mx-3 my-lg-5">
+        <p class="my-3 mx-0">
+        <h3>Add items to Cart</h3>
+        </p>
 
-    <input type="submit" value="Search">
-</form>
+        <form method="get" id="form" action="{% url 'create oder' %}">
+            <label>
+                <input class="text border-dark" name="pattern" placeholder="Search Part number:">
+            </label>
 
-<table>
-    <tr>
-        <td>Part Number</td>
-        <td>Description</td>
-        <td>Qty to add</td>
-    </tr>
+            <input class="btn btn-primary" type="submit" value="Search">
+        </form>
 
-    {% for part in object_list %}
-        <tr>
-            <form method="get" action="{% url 'create oder' %}">
-                <td>
-                    <input type="text" name="part number" value="{{ part.part_number }}" readonly>
-                </td>
-                <td>
-                    <input type="text" name="description" value="{{ part.description }}" readonly>
-                </td>
-                <td>
-                    <input type="text" name="qty" value="1" maxlength="3" size="7">
-                </td>
-                <td>
-                    <button name="Add to cart">Add to Cart</button>
-                </td>
-                {% csrf_token %}
-            </form>
-        </tr>
+        <table>
+            <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Qty to add</th>
+            </tr>
 
-    {% endfor %}
-</table>
+            {% for part in object_list %}
+                <tr>
+                    <form method="get" action="{% url 'create oder' %}">
+                        <td>
+                            <label>
+                                <input type="text" name="part number" value="{{ part.part_number }}" readonly>
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input type="text" name="description" value="{{ part.description }}" readonly>
+                            </label>
+                        </td>
+                        <td>
+                            <label>
+                                <input type="number" name="qty" value="1" maxlength="3" min="1" size="7">
+                            </label>
+                        </td>
+                        <td>
+                            <button class="btn-outline-success" name="Add to cart">Add to Cart</button>
+                        </td>
+                        {% csrf_token %}
+                    </form>
+                </tr>
 
-<div>
-    {% if total_cart_qty != 0 %}
-        <button type="submit" form="form" name="Order">Place Order</button>
-    {% endif %}
-</div>
+            {% endfor %}
 
-</body>
+        </table>
 
-<ul>
-    {% for part_number, qty in cart.items %}
-        <li>{{ part_number }}: {{ qty }}</li>
-    {% endfor %}
-</ul>
-</html>
+
+        {#    <ul>#}
+        {#        {% for part_number, qty in cart.items %}#}
+        {#            <li>{{ part_number }}: {{ qty }}</li>#}
+        {#        {% endfor %}#}
+        {#    </ul>#}
+
+    </div>
+
+{% endblock page_content %}

@@ -102,7 +102,19 @@ class Cart(models.Model):
         default='NA'
     )
 
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(
+        validators=[
+            validators.MinValueValidator(1, message='Minimum order value is 1'),
+        ]
+    )
+
+    @property
+    def price(self):
+        return SparePart.objects.get(part_number=self.part_number).price
+
+    @property
+    def item_cart_total(self):
+        return self.price * self.quantity
 
     @classmethod
     def add_to_cart(cls, part_number, qty):

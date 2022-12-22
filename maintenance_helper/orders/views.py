@@ -28,6 +28,8 @@ class AddToCart(views.ListView):
                 qty = int(request.GET['qty'])
             except ValueError:
                 return redirect('create oder')
+            if qty < 1:
+                return redirect('create oder')
             Cart.add_to_cart(part_number, qty)
             return redirect('create oder')
 
@@ -92,7 +94,7 @@ class ShowCartView(views.ListView):
             pn_to_update = request.GET.get('Update')
             new_qty = int(request.GET.get(pn_to_update))
             ordered_item = self.model.objects.get(part_number=pn_to_update)
-            if new_qty != ordered_item.quantity:
+            if new_qty != ordered_item.quantity and new_qty > 0:
                 ordered_item.quantity = new_qty
                 ordered_item.save(update_fields=['quantity'])
             return redirect('show cart')
