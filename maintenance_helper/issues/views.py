@@ -7,6 +7,7 @@ from django.views import generic as views
 
 from maintenance_helper.issues.forms import IssueCreateForm, IssueEditForm
 from maintenance_helper.issues.models import Issue
+from maintenance_helper.spares.models import SparePart
 
 UserModel = get_user_model()
 
@@ -57,6 +58,7 @@ class IssueEditView(views.UpdateView):
             return self.edit_closed_issue_error(request, issue)
         return super().get(self, request, *args, **kwargs)
 
+
     def post(self, request, *args, **kwargs):
         if 'close issue' in request.POST:
             post = request.POST.copy()
@@ -70,6 +72,13 @@ class IssueEditView(views.UpdateView):
         return reverse_lazy('issue details', kwargs={
             'pk': self.object.pk,
         })
+
+    def get_context_data(self, **kwargs):
+        issue = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context['spare_parts'] = SparePart.objects.all()
+        context['used_parts'] = SparePart.objects.filter(usedsparepart__issue=issue.pk)
+        return context
 
     @staticmethod
     def edit_closed_issue_error(request, issue):

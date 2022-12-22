@@ -3,6 +3,9 @@
 from django.core import validators
 from django.db import models
 
+from maintenance_helper.issues.models import Issue
+from maintenance_helper.machines.models import Machine
+
 
 class SparePart(models.Model):
     SPARE_PART_MAX_LENGTH = 12
@@ -79,3 +82,34 @@ class Stock(models.Model):
         stock_item = Stock.objects.get(part_number=part_number)
         stock_item.quantity += quantity
         stock_item.save()
+
+
+class UsedSparePart(models.Model):
+    part_number = models.OneToOneField(
+        SparePart,
+        on_delete=models.RESTRICT,
+        null=False,
+        blank=False,
+    )
+
+    machine = models.OneToOneField(
+        Machine,
+        on_delete=models.RESTRICT,
+        null=False,
+        blank=False,
+    )
+
+    issue = models.OneToOneField(
+        Issue,
+        on_delete=models.RESTRICT,
+        blank=False,
+        null=False,
+    )
+
+    quantity = models.PositiveIntegerField(
+        null=False,
+        blank=False,
+        validators=[
+            validators.MinValueValidator(1)
+        ],
+    )
