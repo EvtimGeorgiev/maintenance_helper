@@ -23,6 +23,7 @@ class Position(ChoicesEnumMixin):
     technician = 'Technician'
     maintenance = 'Maintenance'
     manager = 'Manager'
+    admin = 'Admin'
 
 
 class AppUser(auth_models.AbstractUser):
@@ -78,9 +79,13 @@ class AppUser(auth_models.AbstractUser):
         max_length=Position.max_length()
     )
 
-    image_url = models.URLField(
+    image = models.ImageField(
+        upload_to='images/users/',
         null=True,
         blank=True,
     )
 
+    @property
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
 

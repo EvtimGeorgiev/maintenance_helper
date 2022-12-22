@@ -1,31 +1,27 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Profile</title>
-</head>
+{% extends 'base/base.html' %}
+{% load static %}
 
-<body>
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% block title %}Edit Profile{% endblock title %}
 
-<h3>{{ user.username | upper }}</h3>
-<form method="post" action="{% url 'edit user' pk=user.pk %}">
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-    {% csrf_token %}
-</form>
-<div>
-    <a href="{% url 'details user' pk=user.pk %}">Back</a>
-</div>
+{% block page_content %}
 
-<div>
-    <a href="{% url 'delete user' pk=user.pk %}">Delete User</a>
-</div>
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-md-5 my-5">
 
-</body>
-</html>
+                <h3 class="text">{{ user.username | upper }}</h3>
+                <form method="post" action="{% url 'edit user' pk=user.pk %}" enctype="multipart/form-data">
+                    {{ form.as_p }}
+                    <input class="btn btn-success" type="submit" value="Save">
+                    {% csrf_token %}
+                </form>
+                <div class="d-flex justify-content-center">
+                        <a class="btn btn-primary mx-3" href="{% url 'details user' pk=user.pk %}">Back</a>
+                        <a class="btn btn-outline-danger mx-3" href="{% url 'delete user' pk=user.pk %}">Delete User</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock page_content %}
+

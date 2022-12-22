@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from django.db.models import F
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views import generic as views
 from maintenance_helper.orders.models import Order, OrderedItem, Cart

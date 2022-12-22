@@ -1,36 +1,37 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User {{ request.user.name }} details</title>
-</head>
-<body>
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% extends 'base/base.html' %}
+{% load static %}
 
-<div>
-    <h2>
-        {{ user.username | upper }}
-    </h2>
-</div>
+{% block page_content %}
 
-<div>
-    <img src="{{ user.image_url }}" alt="No Image" width="200" height="300">
-</div>
+    <section style="background-color: #eee;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mx-auto my-5">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <h5 class="text-uppercase fw-bold">{{ user.username }}</h5>
+                            {% if user.image %}
+                                <img src="{{ user.image.url }}" alt="Personal Photo"
+                                     class="rounded-circle img-fluid" style="width: 250px;">
+                            {% else %}
+                                <img src="{% static 'images/Manager.jpg' %}" alt="Personal Photo"
+                                     class="rounded-circle img-fluid" style="width: 250px;">
+                            {% endif %}
+                            <h5 class="my-3">{{ user.get_full_name }}</h5>
+                            <p class="text-muted mb-1">{{ user.position|capfirst }}</p>
+                            <p class="text-muted mb-4">{{ user.email }}</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a type="button" href="{% url 'index' %}"
+                                   class="btn btn-outline-primary ms-1 justify-content-start mx-3">Back</a>
+                                <a type="button" href="{% url 'edit user' pk=user.pk %}"
+                                   class="btn btn-primary justify-content-end mx-3">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div>
-    Name: {{ user.get_full_name }}
-</div>
+{% endblock page_content %}
 
-<div>
-    Position: {{ user.position | capfirst }}
-</div>
-
-<a href="{% url 'edit user' pk=user.pk %}">Edit Profile</a>
-
-</body>
-</html>

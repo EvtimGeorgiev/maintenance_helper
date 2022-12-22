@@ -1,20 +1,54 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>LogIn</title>
-</head>
-<body>
-<form method="post" action="{% url 'login user' %}">
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ next }}">
-    <input type="submit" value="LogIn">
-    {% csrf_token %}
+{% extends 'base/base.html' %}
 
-</form>
 
-</body>
-</html>
+{% block page_content %}
+
+
+    <div class="container h-100">
+      <div class="row h-100 justify-content-center align-items-center">
+          <div class="col-md-3 my-5">
+              <!-- Form -->
+              <form class="form-example" action="{% url 'login user' %}" method="post">
+                    <!-- Input fields -->
+                    <div class="form-group">
+                        <label for="username">Trigram:</label>
+                        <input type="text" class="form-control username" id="username" placeholder="Trigram" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control password" id="password" placeholder="Password" name="password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-customized mt-4" >Login</button>
+                  {% csrf_token %}
+                </form>
+              <!-- Form end -->
+          </div>
+      </div>
+  </div>
+
+
+
+{% endblock page_content %}
+
+
+{#<!doctype html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport"#}
+{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
+{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#    <title>LogIn</title>#}
+{#</head>#}
+{#<body>#}
+{#<form method="post" action="{% url 'login user' %}">#}
+{#    {{ form.as_p }}#}
+{#    <input type="hidden" name="next" value="{{ next }}">#}
+{#    <input type="submit" value="LogIn">#}
+{#    {% csrf_token %}#}
+{##}
+{#</form>#}
+{##}
+{#</body>#}
+{#</html>#}
