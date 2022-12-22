@@ -2,18 +2,19 @@
 
 {% block page_content %}
 
-    <h2 class="text-danger">Issue '{{ issue.pk }}' is closed and not editable</h2>
-    <p>
+    <div class="container mx-2">
+        <h2 class="text-danger">Issue '{{ issue.pk }}' is closed and not editable</h2>
+        <p>
+            <a class="btn btn-outline-dark flex-shrink-0" type="submit"
+               href="{% url 'issue details' pk=issue.pk %}">
+                <i class="bi-cart-fill me-1"></i>
+                Back to Issue {{ issue.pk }}
+            </a>
+        </p>
         <a class="btn btn-outline-dark flex-shrink-0" type="submit"
-           href="{% url 'issue details' pk=issue.pk %}">
+           href="{% url 'issues' %}">
             <i class="bi-cart-fill me-1"></i>
-            Back to Issue {{ issue.pk }}
+            Back to Issue List
         </a>
-    </p>
-    <a class="btn btn-outline-dark flex-shrink-0" type="submit"
-       href="{% url 'issues' %}">
-        <i class="bi-cart-fill me-1"></i>
-        Back to Issue List
-    </a>
-
+    </div>
 {% endblock page_content %}

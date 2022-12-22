@@ -12,6 +12,9 @@ class IssueCreateForm(forms.ModelForm):
 class IssueEditForm(forms.ModelForm):
     class Meta:
         model = Issue
-        fields = ('machine', 'description', 'closed_on')
-        widgets = {'closed_on': forms.HiddenInput()}
+        fields = ('machine', 'description', 'closed_on', 'closed_by')
+        widgets = {
+            'closed_on': forms.HiddenInput(),
+            'closed_by': forms.HiddenInput(),
+        }
 

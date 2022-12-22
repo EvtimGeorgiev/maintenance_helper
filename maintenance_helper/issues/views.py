@@ -1,11 +1,14 @@
 import datetime
 
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
 from maintenance_helper.issues.forms import IssueCreateForm, IssueEditForm
 from maintenance_helper.issues.models import Issue
+
+UserModel = get_user_model()
 
 
 class IssuesListView(views.ListView):
@@ -27,7 +30,7 @@ def issue_create(request):
             issue = form.save(commit=False)
             issue.created_by = request.user.username
             issue.save()
-            return redirect('index')
+            return redirect('issues')
 
     context = {
         'form': form,
@@ -57,6 +60,7 @@ class IssueEditView(views.UpdateView):
     def post(self, request, *args, **kwargs):
         if 'close issue' in request.POST:
             post = request.POST.copy()
+            issue = self.get_object()
             post['closed_on'] = datetime.datetime.today()
             post['closed_by'] = request.user.username
             request.POST = post
