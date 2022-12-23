@@ -1,36 +1,38 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Register User</title>
-</head>
-<body>
-<header>
-    {% include 'base/nav.html' %}
-</header>
+{% extends 'base/base.html' %}
 
-<h2>Register New User</h2>
-<form method="post" action="{% url 'register user' %}">
-    <p>
-        {{ form.username }}
-    </p>
-    <p>
-        {{ form.first_name }}
-    </p>
-    <p>
-        {{ form.last_name }}
-    </p>
-    <p>
-        {{ form.email }}
-    </p>
-    <p>
-        {{ form.password1 }}
-    </p>
-    <input type="submit" value="Register">
-    {% csrf_token %}
-</form>
-</body>
-</html>
+{% block page_content %}
+
+    <div class="container mx-3">
+
+        <h2>Create New User</h2>
+        <form method="post" action="{% url 'register user' %}">
+            <p>
+                {{ form.username }}
+            </p>
+            <p>
+                {{ form.first_name }}
+            </p>
+            <p>
+                {{ form.last_name }}
+            </p>
+            <p>
+                {{ form.email }}
+            </p>
+            <p>
+                {{ form.position }}
+            </p>
+            <p>
+                {{ form.password1 }}
+            </p>
+
+            <p>
+                {{ form.password2 }}
+            </p>
+
+            <input type="submit" value="Cereate User">
+            {% csrf_token %}
+        </form>
+
+    </div>
+
+{% endblock page_content %}

@@ -5,7 +5,7 @@
     <h3 class="text-capitalize text-info text-center py-2">Orders overview</h3>
 
     <section class="py-2">
-        {% if request.user.position == 'maintenance' %}
+        {% if request.user.position in 'maintenance, admin' %}
             <div class="text-center">
                 <a class="btn btn-warning" href="{% url 'create oder' %}">Order new parts</a>
             </div>

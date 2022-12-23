@@ -9,7 +9,7 @@ from maintenance_helper.spares.models import SparePart, Stock
 class OrdersListView(views.ListView):
     model = Order
     template_name = 'orders/orders.html'
-    ordering = ['order_number']
+    ordering = ['created_on']
 
 
 class AddToCart(views.ListView):

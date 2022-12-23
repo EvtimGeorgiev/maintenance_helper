@@ -50,7 +50,7 @@
             </div>
         </div>
     </section>
-    {% if request.user.position == 'maintenance' %}
+    {% if request.user.position in 'maintenance, admin' %}
         <a class="btn btn-warning float-sm-start" href="{% url 'part create' %}">Create new Part</a>
     {% endif %}
 

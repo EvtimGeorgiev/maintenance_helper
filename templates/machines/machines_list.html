@@ -8,7 +8,7 @@
 {% block page_content %}
 
     <section class="py-5">
-        {% if request.user.position == "maintenance" or request.user.position == 'admin' %}
+        {% if request.user.position in "maintenance, admin" %}
             <div class="text-center">
                 <a class="btn btn-warning" href="{% url 'machine create' %}">Create new Machine</a>
             </div>

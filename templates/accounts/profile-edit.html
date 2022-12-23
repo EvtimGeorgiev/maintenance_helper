@@ -11,13 +11,26 @@
 
                 <h3 class="text">{{ user.username | upper }}</h3>
                 <form method="post" action="{% url 'edit user' pk=user.pk %}" enctype="multipart/form-data">
+{#                    <p>{{ form.first_name }}</p>#}
+{#                    <p>{{ form.last_name }}</p>#}
+{#                    {% if user.position == 'admin' %}#}
+{#                        <p>{{ form.position }}</p>#}
+{#                    {% endif %}#}
+{#                    <p>{{ form.image }}</p>#}
                     {{ form.as_p }}
+
                     <input class="btn btn-success" type="submit" value="Save">
                     {% csrf_token %}
                 </form>
                 <div class="d-flex justify-content-center">
+                    {% if request.path == '/accounts/profile/3/edit/' %}
+                        <a class="btn btn-primary mx-3" href="{% url 'manage users' %}">Back</a>
+                    {% else %}
                         <a class="btn btn-primary mx-3" href="{% url 'details user' pk=user.pk %}">Back</a>
+                    {% endif %}
+                    {% if user.position == 'admin' %}
                         <a class="btn btn-outline-danger mx-3" href="{% url 'delete user' pk=user.pk %}">Delete User</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

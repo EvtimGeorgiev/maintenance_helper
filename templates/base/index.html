@@ -36,7 +36,7 @@
         {#        </div>#}
         <!-- Content Row-->
         <div class="row gx-4 gx-lg-5 align-items-center justify-content-center">
-            {% if request.user.position in 'maintenance, manager' %}
+            {% if request.user.position in 'maintenance, manager, admin' %}
                 <div class="col-md-4 mb-5">
                     <div class="card h-100">
                         <img src="{% static 'images/orders.jpg' %}" alt="Orders.img">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             {% endif %}
-            {% if request.user.position in 'maintenance, technician, manager' %}
+            {% if request.user.position in 'maintenance, technician, manager, admin' %}
                 <div class="col-md-4 mb-5">
                     <div class="card h-100">
                         <img src="{% static 'images/stock.jpg' %}" alt="Stock.img">

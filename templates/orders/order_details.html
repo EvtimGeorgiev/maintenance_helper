@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block page_content %}
-    <div class="container px-1">
+    <div class="container mx-2">
         <h4 class="py-3">Order No: {{ order.order_number }}</h4>
         {% if order.received_on %}
             <h4>Received on: {{ order.received_on }}</h4>
@@ -11,7 +11,7 @@
             </div>
             </div>
 
-            {% if request.user.position == 'maintenance' and ordered_items%}
+            {% if request.user.position in 'maintenance, admin' and ordered_items%}
                 <form method="get" action="{% url 'order details' pk=order.order_number %}">
                     <button class="btn-primary" type="submit" value="{{ order.order_number }}" name="Receive">Mark as
                         Received

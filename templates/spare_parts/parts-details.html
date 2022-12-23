@@ -25,7 +25,7 @@
                 {#                                <div>Details</div>#}
                 {#                                <p class="lead">{{ machine.detailed_info }}</p>#}
                 <div class="d-flex">
-                    {% if request.user.position == 'maintenance' %}
+                    {% if request.user.position in 'maintenance, admin' %}
                         <div class="col-3">
                             <a class="btn btn-outline-dark flex-shrink-0" type="submit"
                                href="{% url 'part edit' pk=sparepart.pk %}">

@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Stock{% endblock title %}
+
+{% block header %}Manage Users{% endblock header %}
+
+{% block page_content %}
+
+    <section class="py-2 col-8">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% if user.position == 'admin' %}
+
+                    <a class="btn btn-warning" href="{% url 'register user' %}">Create New User</a>
+
+                    <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Trigram</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Position</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for user in object_list %}
+                        <tr>
+                            <th>{{ user.username|upper }}</th>
+                            <th>{{ user.get_full_name }}</th>
+                            <td>{{ user.position }}</td>
+                            {% if request.user.position == 'admin' %}
+                                <td><a href="{% url 'edit user' pk=user.pk %}">Edit</a></td>
+                                <td><a href="{% url 'details user' pk=user.pk %}">Details</a></td>
+
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <h4>You do not have permission to access this page</h4>
+                {% endif %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+{% endblock page_content %}

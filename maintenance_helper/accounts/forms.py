@@ -7,8 +7,11 @@ UserModel = get_user_model()
 class UserCreateForm(PlaceholderMixin, auth_forms.UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ("username", 'first_name', 'last_name', 'email', 'password1', 'position')
+        fields = ('position', 'username', 'first_name', 'last_name', 'email', 'password1')
         field_classes = {"username": auth_forms.UsernameField}
 
     def clean_title(self):
-        return self.cleaned_data['title'].capitalize()
+        return self.cleaned_data['username'].capitalize()
+
+
+
