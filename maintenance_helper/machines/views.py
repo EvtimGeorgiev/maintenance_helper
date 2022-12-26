@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 
-from maintenance_helper.machines.forms import MachineEditForm
+from maintenance_helper.core import mixins as cust_mixins
 from maintenance_helper.machines.models import Machine
 
 UserModel = get_user_model()
@@ -37,7 +38,7 @@ class MachinesListView(views.ListView):
         return pattern if pattern else None
 
 
-class MachineCreateView(views.CreateView):
+class MachineCreateView(LoginRequiredMixin, cust_mixins.MaintenanceOnlyAccessMixin, views.CreateView):
     template_name = 'machines/machine-create.html'
     model = Machine
     fields = '__all__'
@@ -75,7 +76,7 @@ class MachineDetailsView(views.DetailView):
 #     return render(request, 'machines/machine-edit.html', context)
 
 
-class MachineEditView(views.UpdateView):
+class MachineEditView(LoginRequiredMixin, cust_mixins.MaintenanceOnlyAccessMixin, views.UpdateView):
     model = Machine
     # form_class = MachineEditForm
     template_name = 'machines/machine-edit.html'
@@ -87,7 +88,7 @@ class MachineEditView(views.UpdateView):
         })
 
 
-class MachineDeleteView(views.DeleteView):
+class MachineDeleteView(LoginRequiredMixin, cust_mixins.ManagerOnlyAccessMixin, views.DeleteView):
     fields = '__all__'
     model = Machine
     template_name = 'machines/machine-delete.html'

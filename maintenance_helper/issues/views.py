@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -8,6 +9,7 @@ from django.views import generic as views
 from maintenance_helper.issues.forms import IssueCreateForm, IssueEditForm
 from maintenance_helper.issues.models import Issue
 from maintenance_helper.spares.models import SparePart
+from maintenance_helper.core import mixins as custom_mixins
 
 UserModel = get_user_model()
 
@@ -23,7 +25,11 @@ class IssuesListView(views.ListView):
 
 
 def issue_create(request):
-    if request.method == 'GET':
+    if request.method == 'GET' and not request.user.is_authenticated:
+        return redirect('login user')
+    elif request.method == 'GET' and request.user.position not in ('technician', 'maintenance', 'admin'):
+        return redirect('access denied')
+    elif request.method == 'GET' and request.user.is_authenticated:
         form = IssueCreateForm()
     else:
         form = IssueCreateForm(request.POST)
@@ -46,7 +52,7 @@ class IssueDetailsView(views.DetailView):
     template_name = 'issues/issue-details.html'
 
 
-class IssueEditView(views.UpdateView):
+class IssueEditView(LoginRequiredMixin, views.UpdateView):
     model = Issue
     form_class = IssueEditForm
     template_name = 'issues/issue-edit.html'
@@ -57,7 +63,6 @@ class IssueEditView(views.UpdateView):
         if issue.closed_on:
             return self.edit_closed_issue_error(request, issue)
         return super().get(self, request, *args, **kwargs)
-
 
     def post(self, request, *args, **kwargs):
         if 'close issue' in request.POST:

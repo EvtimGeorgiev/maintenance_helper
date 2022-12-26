@@ -11,6 +11,8 @@ UserAdmin = get_user_model()
 class AppUserAdmin(auth_admin.UserAdmin):
     add_form = UserCreateForm
 
+    list_display = ('username', 'position', 'first_name', 'last_name', 'email')
+
     fieldsets = (
         (
             None,

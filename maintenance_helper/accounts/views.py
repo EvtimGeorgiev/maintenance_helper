@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 
 from maintenance_helper.accounts.forms import UserCreateForm
+from maintenance_helper.core.mixins import AdminOnlyAccessMixin
 
 UserModel = get_user_model()
 
@@ -13,7 +14,7 @@ class SignInView(auth_views.LoginView):
     template_name = 'accounts/login.html'
 
 
-class RegisterUserView(views.CreateView):
+class RegisterUserView(AdminOnlyAccessMixin, views.CreateView):
     template_name = 'accounts/register.html'
     form_class = UserCreateForm
     success_url = reverse_lazy('index')
@@ -39,12 +40,12 @@ class UserEditView(views.UpdateView):
         })
 
 
-class UserDeleteView(views.DeleteView):
+class UserDeleteView(AdminOnlyAccessMixin, views.DeleteView):
     model = UserModel
     template_name = 'accounts/profile-delete.html'
     success_url = reverse_lazy('index')
 
 
-class ManageUsersView(views.ListView):
+class ManageUsersView(AdminOnlyAccessMixin, views.ListView):
     model = UserModel
     template_name = 'accounts/manage_users.html'

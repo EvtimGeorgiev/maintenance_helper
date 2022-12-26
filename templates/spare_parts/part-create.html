@@ -8,12 +8,14 @@
         <div class="text-end col-4">
             <form method="post" action="{% url 'part create' %}" enctype="multipart/form-data">
                 {% for field in form %}
-                    <div class="col-7">
-                        <h5>{{ field.name }}: {{ field }}</h5>
-                    <div class="invalid-feedback">
-                        <h5>{{ form.errors.part_number }}</h5>
-                    </div>
-                    </div>
+                    <p class="col-7">
+                    <h5>{{ field.name }}: {{ field }}</h5>
+                    {% if field.errors %}
+                        <div>
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                    </p>
                 {% endfor %}
                 <button type="submit" class="btn btn-success">Save</button>
                 {% csrf_token %}
@@ -25,7 +27,7 @@
 
 {% endblock page_content %}
 
-{##}
+
 {#<!doctype html>#}
 {#<html lang="en">#}
 {#<head>#}

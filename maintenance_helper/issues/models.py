@@ -51,3 +51,6 @@ class Issue(models.Model):
     @property
     def create_on_date(self):
         return self.created_on.date()
+
+    def __str__(self):
+        return f'Issue No: {self.pk}'

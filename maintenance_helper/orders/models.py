@@ -51,6 +51,9 @@ class Order(models.Model):
         else:
             return f'{datetime.date.today()}_{int(last_order_number.split("_")[1]) + 1}'
 
+    def __str__(self):
+        return f'Order No: {self.order_number}'
+
 
 class OrderedItem(models.Model):
     order_number = models.ForeignKey(
@@ -107,6 +110,9 @@ class Cart(models.Model):
             validators.MinValueValidator(1, message='Minimum order value is 1'),
         ]
     )
+
+    class Meta:
+        verbose_name_plural = 'Cart'
 
     @property
     def price(self):

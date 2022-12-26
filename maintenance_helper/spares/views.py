@@ -1,10 +1,12 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic as views
 
 from maintenance_helper.spares.models import SparePart, Stock
+from maintenance_helper.core import mixins as custom_mixins
 
 
-class SparePartsListView(views.ListView):
+class SparePartsListView(LoginRequiredMixin, custom_mixins.TechnicianAccessMixin, views.ListView):
     context_object_name = 'parts'
     model = SparePart
     fields = '__all__'
@@ -20,7 +22,7 @@ class SparePartsListView(views.ListView):
         return queryset
 
 
-class SparePartCreateView(views.CreateView):
+class SparePartCreateView(LoginRequiredMixin, custom_mixins.MaintenanceOnlyAccessMixin, views.CreateView):
     model = SparePart
     fields = '__all__'
     template_name = 'spare_parts/part-create.html'
@@ -31,13 +33,13 @@ class SparePartCreateView(views.CreateView):
         })
 
 
-class SparePartsDetailView(views.DetailView):
+class SparePartsDetailView(LoginRequiredMixin, custom_mixins.TechnicianAccessMixin, views.DetailView):
     model = SparePart
     exclude = ('part_number',)
     template_name = 'spare_parts/parts-details.html'
 
 
-class SparePartEditView(views.UpdateView):
+class SparePartEditView(LoginRequiredMixin, custom_mixins.TechnicianAccessMixin, views.UpdateView):
     model = SparePart
     fields = ('description', 'price', 'image')
     template_name = 'spare_parts/parts-edit.html'
@@ -49,11 +51,11 @@ class SparePartEditView(views.UpdateView):
         })
 
 
-class SparePartDeleteView(views.DeleteView):
+class SparePartDeleteView(LoginRequiredMixin, custom_mixins.MaintenanceOnlyAccessMixin, views.DeleteView):
     pass
 
 
-class StockItemsView(views.ListView):
+class StockItemsView(LoginRequiredMixin, custom_mixins.TechnicianAccessMixin, views.ListView):
     model = Stock
     fields = '__all__'
     template_name = 'spare_parts/stock_items_list.html'
@@ -63,7 +65,7 @@ class StockItemsView(views.ListView):
         return queryset.order_by('part_number')
 
 
-class StockItemEdit(views.UpdateView):
+class StockItemEdit(LoginRequiredMixin, custom_mixins.TechnicianAccessMixin, views.UpdateView):
     context_object_name = 'part'
     model = Stock
     fields = ('quantity', 'min_stock_qty')

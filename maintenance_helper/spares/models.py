@@ -57,7 +57,11 @@ class Stock(models.Model):
         on_delete=models.CASCADE,
         blank=False,
         null=False,
+
     )
+
+    class Meta:
+        verbose_name_plural = 'Stock'
 
     description = models.CharField(
         max_length=30,
@@ -82,6 +86,9 @@ class Stock(models.Model):
         stock_item = Stock.objects.get(part_number=part_number)
         stock_item.quantity += quantity
         stock_item.save()
+
+    def __str__(self):
+        return f'Part No: {self.part_number}'
 
 
 class UsedSparePart(models.Model):

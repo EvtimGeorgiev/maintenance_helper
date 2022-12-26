@@ -1,18 +1,21 @@
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views import generic as views
+
+from maintenance_helper.core import mixins as custom_mixins
 from maintenance_helper.orders.models import Order, OrderedItem, Cart
 from maintenance_helper.spares.models import SparePart, Stock
 
 
-class OrdersListView(views.ListView):
+class OrdersListView(LoginRequiredMixin, custom_mixins.MaintenanceAccessMixin, views.ListView):
     model = Order
     template_name = 'orders/orders.html'
     ordering = ['created_on']
 
 
-class AddToCart(views.ListView):
+class AddToCart(LoginRequiredMixin, custom_mixins.MaintenanceOnlyAccessMixin, views.ListView):
     model = SparePart
     template_name = 'orders/add_to_cart.html'
     fields = ('part_number', 'quantity')
@@ -82,7 +85,7 @@ class AddToCart(views.ListView):
         return context
 
 
-class ShowCartView(views.ListView):
+class ShowCartView(LoginRequiredMixin, custom_mixins.MaintenanceOnlyAccessMixin, views.ListView):
     model = Cart
     template_name = 'orders/show_cart.html'
     ordering = ['part_number']
@@ -116,7 +119,7 @@ class ShowCartView(views.ListView):
         return context
 
 
-class OrderDetailsView(views.DetailView):
+class OrderDetailsView(LoginRequiredMixin, custom_mixins.MaintenanceAccessMixin, views.DetailView):
     model = Order
     template_name = 'orders/order_details.html'
 
@@ -144,5 +147,3 @@ class OrderDetailsView(views.DetailView):
         return OrderedItem.objects.filter(order_number_id=order.order_number)
 
 
-class UpdateCartView(views.UpdateView):
-    model = Cart

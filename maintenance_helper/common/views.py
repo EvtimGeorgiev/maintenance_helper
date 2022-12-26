@@ -17,3 +17,7 @@ def index(request):
         'items_below_min': items_below_min,
     }
     return render(request, 'base/index.html', context)
+
+
+def access_denied(request):
+    return render(request, 'base/access_denied.html')
